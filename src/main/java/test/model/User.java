@@ -1,10 +1,23 @@
 package test.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "users")
 public class User {
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+
+    @Column(name = "name")
     String name;
+
+    @Column(name = "position")
     String position;
+
+    @Column(name = "age")
     int age;
 
     public User(int id, String name, String position, int age) {

@@ -1,44 +1,46 @@
 package test.DAO;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import test.model.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class UserDAOImpl implements UserDAO{
-    private static final AtomicInteger AUTO_ID = new AtomicInteger(0);
-    private static Map<Integer, User> users = new HashMap<>();
 
-    static {
-        User user1 = new User(AUTO_ID.getAndIncrement(), "Dima", "engenear", 30);
-        User user2= new User(AUTO_ID.getAndIncrement(), "Kolya", "engenear", 35);
-        users.put(user1.getId(), user1);
-        users.put(user2.getId(), user2);
+    private SessionFactory sessionFactory;
+
+    @Autowired
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
+
     public List<User> allUser() {
-        return new ArrayList<>(users.values());
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from User").list();
     }
 
     public void add(User user) {
-        user.setId(AUTO_ID.getAndIncrement());
-        users.put(user.getId(), user);
+        Session session = sessionFactory.getCurrentSession();
+        session.persist(user);
     }
 
     public void delete(User user) {
-        users.remove(user.getId());
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(user);
     }
 
     public void edit(User user) {
-        users.put(user.getId(), user);
+        Session session = sessionFactory.getCurrentSession();
+        session.update(user);
     }
 
     public User getById(int id) {
-        return users.get(id);
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(User.class, id);
     }
 }
