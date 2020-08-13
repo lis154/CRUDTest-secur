@@ -11,9 +11,16 @@
 <head>
     <link href="<c:url value="/res/style.css"/>" rel="stylesheet" type="text/css"/>
     <title>USERS</title>
+
+    <style>
+        body {
+            background-image: url("/res/image.jpg"); /* Путь к фоновому изображению */
+            background-color: #c7b39b; /* Цвет фона */
+        }
+    </style>
 </head>
 <body>
-<h2 align="centr">USERS</h2>
+<h2 align="center"><font color="red">USERS</font></h2>
 <table>
     <tr>
         <th>id</th>
@@ -33,10 +40,16 @@
             </td>
         </tr>
     </c:forEach>
+    <tr><td>page</td></tr>
+    <tr><td>
+        <c:forEach begin="1" end="${pagesCount}" step="1" varStatus="i">
+            <c:url value="/" var="url">
+                <c:param name="page" value="${i.index}"/>
+            </c:url>
+            <a href="${url}">${i.index}</a>
+        </c:forEach></td>
+    <td><c:url value="/add" var="add"/>
+        <a href="${add}">Add new user</a></td></tr>
 </table>
-
-<h2>Add</h2>
-<c:url value="/add" var="add"/>
-<a href="${add}">Add new film</a>
 </body>
 </html>

@@ -2,10 +2,7 @@ package test.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import test.model.User;
 import test.service.UserService;
@@ -16,7 +13,7 @@ import java.util.List;
 
 @Controller
 public class UserController {
-
+    private int page;
     private final UserService userService;
 
     @Autowired
@@ -25,11 +22,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView allUser(){
-        List<User> listUser = userService.allUser();
+    public ModelAndView allUser(@RequestParam(defaultValue = "1") int page){
+        List<User> listUser = userService.allUser(page);
+        int userCount = userService.userCount();
+        int pageCout = (userCount + 9)/10;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("allUser");
         modelAndView.addObject("userList", listUser);
+        modelAndView.addObject("usersCount", userCount);
+        modelAndView.addObject("pagesCount", pageCout);
+        this.page=page;
         return modelAndView;
     }
 
@@ -45,7 +47,7 @@ public class UserController {
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public ModelAndView editUser(@ModelAttribute("user") User user){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/");
+        modelAndView.setViewName("redirect:/?page=" + this.page);
         userService.edit(user);
         return modelAndView;
     }
@@ -59,7 +61,7 @@ public class UserController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ModelAndView addUser(@ModelAttribute("user") User user){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/");
+        modelAndView.setViewName("redirect:/?page=" + this.page);
         userService.add(user);
         return modelAndView;
     }
@@ -68,7 +70,7 @@ public class UserController {
     public ModelAndView delete(@PathVariable("id") int id){
         User user = userService.getById(id);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/");
+        modelAndView.setViewName("redirect:/?page=" + this.page);
         userService.delete(user);
         return modelAndView;
     }

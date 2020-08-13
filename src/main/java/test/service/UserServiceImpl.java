@@ -17,8 +17,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Transactional
-    public List<User> allUser() {
-        return userDAO.allUser();
+    public List<User> allUser(int page) {
+        return userDAO.allUser(page);
     }
 
     @Transactional
@@ -39,5 +39,10 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public User getById(int id) {
         return userDAO.getById(id);
+    }
+
+    @Transactional
+    public int userCount(){
+        return userDAO.userCount();
     }
 }
