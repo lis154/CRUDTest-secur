@@ -14,70 +14,42 @@ import java.util.List;
 @Service
 @Transactional
 public class UserServiceImpl {
+
+
+    private final UserDAO userDAO;
     @Autowired
-    UsersRepo repo;
-
-    public void save(User customer) {
-        repo.save(customer);
+    public UserServiceImpl(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
-    public List<User> listAll() {
-        return (List<User>) repo.findAll();
+    @Transactional
+    public List<User> allUser(int page) {
+        return userDAO.allUser(page);
     }
 
-    public User get(Long id) {
-        return repo.findById(Math.toIntExact(id)).get();
+    @Transactional
+    public void add(User user) {
+        userDAO.add(user);
     }
 
-    public void delete(User user) {
-        repo.delete(user);
+
+    @Transactional
+    public void delete(int id) {
+        userDAO.delete(id);
     }
 
-    public int count(){
-        return (int) repo.count();
+    @Transactional
+    public void edit(User user) {
+        userDAO.edit(user);
     }
 
-//    @PersistenceContext
-//    private EntityManager entityManager;
-//
-//    private final UserDAO userDAO;
-//    @Autowired
-//    public UserServiceImpl(UserDAO userDAO) {
-//        this.userDAO = userDAO;
-//    }
-//
-//    @Transactional
-//    public List<User> allUser(int page) {
-//        return userDAO.allUser(page);
-//    }
-//
-////    @Transactional
-////    public void add(User user) {
-////        userDAO.add(user);
-////    }
-//
-//    @Transactional
-//    public void add(User user) {
-//        entityManager.persist(user);
-//    }
-//
-//    @Transactional
-//    public void delete(User user) {
-//        userDAO.delete(user);
-//    }
-//
-//    @Transactional
-//    public void edit(User user) {
-//        userDAO.edit(user);
-//    }
-//
-//    @Transactional
-//    public User getById(int id) {
-//        return userDAO.getById(id);
-//    }
-//
-//    @Transactional
-//    public int userCount(){
-//        return userDAO.userCount();
-//    }
+    @Transactional
+    public User getById(int id) {
+        return userDAO.getById(id);
+    }
+
+    @Transactional
+    public int userCount(){
+        return userDAO.userCount();
+    }
 }

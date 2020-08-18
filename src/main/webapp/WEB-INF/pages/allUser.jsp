@@ -40,16 +40,18 @@
             </td>
         </tr>
     </c:forEach>
-    <tr><td>page</td></tr>
-    <tr><td>
-        <c:forEach begin="1" end="${pagesCount}" step="1" varStatus="i">
+
+    <tr><td>USer count ${usersCount}</td>><td>
+    <tr><td>page</td>
+       <td> <c:forEach begin="1" end="${pagesCount}" step="1" varStatus="i">
             <c:url value="/" var="url">
                 <c:param name="page" value="${i.index}"/>
             </c:url>
             <a href="${url}">${i.index}</a>
-        </c:forEach></td>
+        </c:forEach></td></tr>
+
     <td><c:url value="/add" var="add"/>
-        <a href="${add}">Add new user</a></td></tr>
+        <a href="${add}">Add new user</a></td>
 </table>
 
 </body>

@@ -24,8 +24,8 @@ public class UserController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView allUser(@RequestParam(defaultValue = "1") int page){
-        List<User> listUser = userService.listAll();
-        int userCount = userService.count();
+        List<User> listUser = userService.allUser(page);
+        int userCount = userService.userCount();
         int pageCout = (userCount + 9)/10;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("allUser");
@@ -38,7 +38,7 @@ public class UserController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable("id") int id){
-        User user = userService.get((long) id);
+        User user = userService.getById( id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("edit");
         modelAndView.addObject("user", user);
@@ -49,7 +49,7 @@ public class UserController {
     public ModelAndView editUser(@ModelAttribute("user") User user){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/?page=" + this.page);
-        userService.save(user);
+        userService.edit(user);
         return modelAndView;
     }
 
@@ -63,16 +63,16 @@ public class UserController {
     public ModelAndView addUser(@ModelAttribute("user") User user){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/?page=" + this.page);
-        userService.save(user);
+        userService.add(user);
         return modelAndView;
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public ModelAndView delete(@PathVariable("id") int id){
-        User user = userService.get((long) id);
+       // User user = userService.getById(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/?page=" + this.page);
-        userService.delete(user);
+        userService.delete(id);
         return modelAndView;
     }
 
