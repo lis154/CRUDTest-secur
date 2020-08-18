@@ -17,7 +17,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan(basePackages = "test")
+@ComponentScan("test")
 
 public class PersistenceJPAConfig {
 
@@ -26,7 +26,7 @@ public class PersistenceJPAConfig {
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[]{"test.Model","test.service","test.controller"});
+        em.setPackagesToScan(new String[]{"test.model","test.service","test.controller"});
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
