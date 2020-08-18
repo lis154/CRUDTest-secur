@@ -1,16 +1,68 @@
 package test.DAO;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import test.model.User;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
-@Repository
+@Service
+@Transactional
 public class UserDAOImpl implements UserDAO{
-//
+
+    EntityManager entityManager;
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+    @PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    @Transactional
+    @Override
+    public List<User> allUser(int page) {
+        Query query = getEntityManager().createQuery("select c from User c");
+        List<User> resultList = query.getResultList();
+        return resultList;
+    }
+
+    @Transactional
+    @Override
+    public void add(User user) {
+        getEntityManager().persist(user);
+    }
+
+    @Transactional
+    @Override
+    public void delete(User user) {
+        getEntityManager().remove(user);
+    }
+
+    @Transactional
+    @Override
+    public void edit(User user) {
+
+    }
+
+    @Transactional
+    @Override
+    public User getById(int id) {
+        return getEntityManager().find(User.class, id);
+    }
+
+    @Transactional
+    @Override
+    public int userCount() {
+        Query query = entityManager.createNativeQuery("SELECT COUNT(*) FROM User " );
+        int rez = query.getFirstResult();
+        return rez;
+    }
+
 //    private SessionFactory sessionFactory;
 //
 //    @Autowired
