@@ -51,5 +51,6 @@
     <td><c:url value="/add" var="add"/>
         <a href="${add}">Add new user</a></td></tr>
 </table>
+
 </body>
 </html>

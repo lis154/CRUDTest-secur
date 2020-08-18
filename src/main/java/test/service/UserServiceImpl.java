@@ -5,10 +5,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import test.DAO.UserDAO;
 import test.model.User;
+import test.config.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 @Service
 public class UserServiceImpl implements UserService{
+
+//    @PersistenceContext
+//    private EntityManager entityManager;
 
     private final UserDAO userDAO;
     @Autowired
@@ -25,6 +32,11 @@ public class UserServiceImpl implements UserService{
     public void add(User user) {
         userDAO.add(user);
     }
+
+//    @Transactional
+//    public void add(User user) {
+//        entityManager.persist(user);
+//    }
 
     @Transactional
     public void delete(User user) {
