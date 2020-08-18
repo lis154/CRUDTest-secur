@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 import test.model.User;
 import test.service.UserService;
 import test.service.UserServiceImpl;
+import test.service.UsersRepo;
 
 import javax.jws.soap.SOAPBinding;
 import java.util.List;
@@ -14,17 +15,17 @@ import java.util.List;
 @Controller
 public class UserController {
     private int page;
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView allUser(@RequestParam(defaultValue = "1") int page){
-        List<User> listUser = userService.allUser(page);
-        int userCount = userService.userCount();
+        List<User> listUser = userService.listAll();
+        int userCount = userService.count();
         int pageCout = (userCount + 9)/10;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("allUser");
@@ -37,7 +38,7 @@ public class UserController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable("id") int id){
-        User user = userService.getById(id);
+        User user = userService.get((long) id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("edit");
         modelAndView.addObject("user", user);
@@ -48,7 +49,7 @@ public class UserController {
     public ModelAndView editUser(@ModelAttribute("user") User user){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/?page=" + this.page);
-        userService.edit(user);
+        userService.save(user);
         return modelAndView;
     }
 
@@ -62,13 +63,13 @@ public class UserController {
     public ModelAndView addUser(@ModelAttribute("user") User user){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/?page=" + this.page);
-        userService.add(user);
+        userService.save(user);
         return modelAndView;
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public ModelAndView delete(@PathVariable("id") int id){
-        User user = userService.getById(id);
+        User user = userService.get((long) id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/?page=" + this.page);
         userService.delete(user);
