@@ -1,6 +1,6 @@
 package test.DAO;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import test.model.User;
 
@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
-@Service
+@Repository
 @Transactional
 public class UserDAOImpl implements UserDAO{
 
@@ -23,7 +23,7 @@ public class UserDAOImpl implements UserDAO{
         this.entityManager = entityManager;
     }
 
-    @Transactional
+
     @Override
     public List<User> allUser(int page) {
         Query query = getEntityManager().createQuery("select c from User c");
@@ -32,13 +32,13 @@ public class UserDAOImpl implements UserDAO{
         return resultList;
     }
 
-    @Transactional
+
     @Override
     public void add(User user) {
         getEntityManager().persist(user);
     }
 
-    @Transactional
+
     @Override
     public void delete(int id) {
         EntityManager em =  getEntityManager();
@@ -46,19 +46,19 @@ public class UserDAOImpl implements UserDAO{
         getEntityManager().remove(user);
     }
 
-    @Transactional
+
     @Override
     public void edit(User user) {
         getEntityManager().merge(user);
     }
 
-    @Transactional
+
     @Override
     public User getById(int id) {
         return getEntityManager().find(User.class, id);
     }
 
-    @Transactional
+
     @Override
     public int userCount() {
         Query query = entityManager.createQuery("SELECT COUNT(*) FROM User " );
