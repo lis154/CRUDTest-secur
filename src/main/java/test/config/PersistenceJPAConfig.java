@@ -3,6 +3,7 @@ package test.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -17,6 +18,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan("test")
 
 public class PersistenceJPAConfig {
@@ -39,7 +41,7 @@ public class PersistenceJPAConfig {
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/usercrud?useSSL=false");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/usercrud2?useSSL=false");
         dataSource.setUsername( "root" );
         dataSource.setPassword( "root" );
         return dataSource;

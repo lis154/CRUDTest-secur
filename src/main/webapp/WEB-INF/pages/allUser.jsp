@@ -25,14 +25,14 @@
     <tr>
         <th>id</th>
         <th>name</th>
-        <th>position</th>
+        <th>password</th>
         <th>age</th>
     </tr>
     <c:forEach var="user" items="${userList}">
         <tr>
             <td>${user.id}</td>
             <td>${user.name}</td>
-            <td>${user.position}</td>
+            <td>${user.password}</td>
             <td>${user.age}</td>
             <td>
                 <a href="/edit/${user.id}">edit</a>

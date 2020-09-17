@@ -32,8 +32,8 @@
     </c:if>
     <label for="name">Name</label>
     <input type="text" name="name" id="name" value="${user.name}">
-    <label for="position">Position</label>
-    <input type="text" name="position" id="position" value="${user.position}">
+    <label for="password">password</label>
+    <input type="text" name="password" id="password" value="${user.password}">
     <label for="age">Age</label>
     <input type="text" name="age" id="age" value="${user.age}">
     <c:if test="${!empty user.name}">

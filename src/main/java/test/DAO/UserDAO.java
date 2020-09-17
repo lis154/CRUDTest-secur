@@ -12,4 +12,5 @@ public interface UserDAO {
     void edit(User user);
     User getById(int id);
     public int userCount();
+    public User getUserByName(String name);
 }
