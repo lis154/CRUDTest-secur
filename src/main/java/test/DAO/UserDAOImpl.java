@@ -105,14 +105,15 @@ import java.util.List;
 
 @Repository
 @Transactional
-@EnableAspectJAutoProxy(proxyTargetClass=true)
-public class UserDAOImpl implements UserDAO{
+@EnableAspectJAutoProxy(proxyTargetClass = true)
+public class UserDAOImpl implements UserDAO {
 
     EntityManager entityManager;
 
     public EntityManager getEntityManager() {
         return entityManager;
     }
+
     @PersistenceContext
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -122,7 +123,7 @@ public class UserDAOImpl implements UserDAO{
     @Override
     public List<User> allUser(int page) {
         Query query = getEntityManager().createQuery("select c from User c");
-        List<User> resultList = query.setFirstResult(10*(page-1)).setMaxResults(10).getResultList();
+        List<User> resultList = query.setFirstResult(10 * (page - 1)).setMaxResults(10).getResultList();
         return resultList;
     }
 
@@ -130,17 +131,13 @@ public class UserDAOImpl implements UserDAO{
     @Override
     public void add(User user) {
         EntityManager entityManager = getEntityManager();
-        Long lon = 5L;
-        HashSet<Role> str = new HashSet<>();
-        str.add(new Role(lon, "ROLE_USER"));
-        User user1 = new User (10,"ilya2", "qwe", 15,str);
         entityManager.merge(user);
     }
 
 
     @Override
     public void delete(int id) {
-        EntityManager em =  getEntityManager();
+        EntityManager em = getEntityManager();
         User user = em.find(User.class, id);
         getEntityManager().remove(user);
     }
@@ -161,7 +158,7 @@ public class UserDAOImpl implements UserDAO{
     public User getUserByName(String name) {
         Query query = entityManager.createQuery("FROM User where name = :name");
         query.setParameter("name", name);
-        return (User)query.getSingleResult();
+        return (User) query.getSingleResult();
 
 
     }
@@ -169,10 +166,8 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public int userCount() {
-        Query query = entityManager.createQuery("SELECT COUNT(*) FROM User " );
-
+        Query query = entityManager.createQuery("SELECT COUNT(*) FROM User ");
         int rez = ((Number) query.getSingleResult()).intValue();
-        System.out.println(rez);
         return rez;
     }
 

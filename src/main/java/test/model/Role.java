@@ -4,9 +4,10 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.io.Serializable;
+
 @Entity
 @Table(name = "roles")
-public class Role implements  Serializable, GrantedAuthority {
+public class Role implements Serializable, GrantedAuthority {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +18,8 @@ public class Role implements  Serializable, GrantedAuthority {
 
     public Role() {
     }
-    public Role(String role){
+
+    public Role(String role) {
         this.role = role;
     }
 

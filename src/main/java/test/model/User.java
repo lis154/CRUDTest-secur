@@ -28,7 +28,7 @@ public class User implements UserDetails {
     @Column(name = "age")
     int age;
 
-    @OneToMany(cascade=CascadeType.MERGE, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     Set<Role> roles;
 
     public User(int id, String name, String password, int age, Set<Role> roles) {
@@ -47,7 +47,8 @@ public class User implements UserDetails {
         return roles;
     }
 
-    public User(){}
+    public User() {
+    }
 
     public int getId() {
         return id;
@@ -56,7 +57,6 @@ public class User implements UserDetails {
     public String getName() {
         return name;
     }
-
 
 
     public int getAge() {
@@ -123,29 +123,29 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    
-    public Set<Role> setRolesOnForm(String str){
+
+    public Set<Role> setRolesOnForm(String str) {
         String[] role = str.split(" ");
         Set<Role> roles = new HashSet<Role>();
-        for (String s: role) {
+        for (String s : role) {
             roles.add(new Role(s));
         }
         this.roles = roles;
         return roles;
     }
 
-    public String getListRoles(){
+    public String getListRoles() {
         String rol = "";
-        for (Role r: roles) {
+        for (Role r : roles) {
             rol = rol + r.getRole() + " ";
         }
         return rol;
     }
 
-    public boolean isAdmin(){
-        for (Role r: this.getRoles()) {
+    public boolean isAdmin() {
+        for (Role r : this.getRoles()) {
             System.out.println("+++++++++++++" + r.getRole());
-            if (r.getRole().equals("ROLE_ADMIN")){
+            if (r.getRole().equals("ROLE_ADMIN")) {
                 return true;
             }
         }
@@ -155,9 +155,9 @@ public class User implements UserDetails {
 
 
     public boolean getIsAdmin() {
-        for (Role r: this.getRoles()) {
+        for (Role r : this.getRoles()) {
             System.out.println("+++++++++++++" + r.getRole());
-            if (r.getRole().equals("ROLE_ADMIN")){
+            if (r.getRole().equals("ROLE_ADMIN")) {
                 return true;
             }
         }

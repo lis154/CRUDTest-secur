@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // http.csrf().disable(); - попробуйте выяснить сами, что это даёт
         http.csrf().disable().authorizeRequests()
 
-                                .antMatchers("/user").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')") // разрешаем входить на /user пользователям с ролью User
+                .antMatchers("/user").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')") // разрешаем входить на /user пользователям с ролью User
                 .antMatchers("/admin/add").access("hasAuthority('ROLE_ADMIN')")
                 .antMatchers("/admin/add/*").access("hasAuthority('ROLE_ADMIN')")
                 .antMatchers("/admin/edit").access("hasAuthority('ROLE_ADMIN')")

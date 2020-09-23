@@ -25,15 +25,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public ModelAndView allUser(@RequestParam(defaultValue = "1") int page){
+    public ModelAndView allUser(@RequestParam(defaultValue = "1") int page) {
         List<User> listUser = userService.allUser(page);
         int userCount = userService.userCount();
-        int pageCout = (userCount + 9)/10;
+        int pageCout = (userCount + 9) / 10;
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String nameAdmin = auth.getName();
-        System.out.println("Name = " + nameAdmin);
-
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("allUser");
         modelAndView.addObject("userList", listUser);
@@ -41,14 +39,13 @@ public class UserController {
         modelAndView.addObject("pagesCount", pageCout);
         modelAndView.addObject("username", nameAdmin);
 
-
-        this.page=page;
+        this.page = page;
         return modelAndView;
     }
 
     @RequestMapping(value = "/admin/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView edit(@PathVariable("id") int id){
-        User user = userService.getById( id);
+    public ModelAndView edit(@PathVariable("id") int id) {
+        User user = userService.getById(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("edit");
         modelAndView.addObject("user", user);
@@ -56,7 +53,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/admin/edit", method = RequestMethod.POST)
-    public ModelAndView editUser(@ModelAttribute("user") User user, @RequestParam("role") String role ){
+    public ModelAndView editUser(@ModelAttribute("user") User user, @RequestParam("role") String role) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/admin/?page=" + this.page);
         user.setRolesOnForm(role);
@@ -70,22 +67,13 @@ public class UserController {
         modelAndView.setViewName("edit");
         return modelAndView;
     }
+
     @RequestMapping(value = "/admin/add", method = RequestMethod.POST)
-    public ModelAndView addUser(@ModelAttribute("user") User user, @RequestParam("role") String role){
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("redirect:/admin/?page=" + this.page);
-//
-//
-//        //modelAndView.setViewName("redirect:/");
-//        System.out.println("test_________" + role);
-//        user.setRolesOnForm(role);
-//        userService.add(user);
-//        return modelAndView;
+    public ModelAndView addUser(@ModelAttribute("user") User user, @RequestParam("role") String role) {
 
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/admin/?page=" + this.page);
-        //modelAndView.setViewName("redirect:/");
         System.out.println("test_________" + role);
         user.setRolesOnForm(role);
         userService.add(user);
@@ -93,8 +81,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/admin/delete/{id}", method = RequestMethod.GET)
-    public ModelAndView delete(@PathVariable("id") int id){
-       // User user = userService.getById(id);
+    public ModelAndView delete(@PathVariable("id") int id) {
+        // User user = userService.getById(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/admin/?page=" + this.page);
         userService.delete(id);
@@ -102,7 +90,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public ModelAndView OneUser(@RequestParam("username") String name){
+    public ModelAndView OneUser(@RequestParam("username") String name) {
 
         System.out.println(name);
         User listUser = (User) userService.loadUserByUsername(name);
@@ -115,16 +103,14 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value="/logout", method = RequestMethod.GET)
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
+        if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         return "redirect:/";
     }
-
-
 
 
 }

@@ -16,13 +16,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+
 @Service
 @Transactional
 //@EnableAspectJAutoProxy(proxyTargetClass=true)
-public class UserServiceImpl implements UserDetailsService, UserService{
+public class UserServiceImpl implements UserDetailsService, UserService {
 
 
     private final UserDAO userDAO;
+
     @Autowired
     public UserServiceImpl(UserDAO userDAO) {
         this.userDAO = userDAO;
@@ -55,7 +57,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
     }
 
     @Transactional
-    public int userCount(){
+    public int userCount() {
         return userDAO.userCount();
     }
 
