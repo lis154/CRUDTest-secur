@@ -30,13 +30,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // http.csrf().disable(); - попробуйте выяснить сами, что это даёт
-        http.authorizeRequests()
-                // .antMatchers("/").permitAll() // доступность всем
-                .antMatchers("/").access("hasAnyRole('ROLE_USER')") // разрешаем входить на /user пользователям с ролью User
-                .antMatchers("/add").access("hasAnyRole('ROLE_USER')")
-                .antMatchers("/edit").access("hasAnyRole('ROLE_USER')")
+        http.csrf().disable().authorizeRequests()
+
+                                .antMatchers("/user").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')") // разрешаем входить на /user пользователям с ролью User
+                .antMatchers("/admin/add").access("hasAuthority('ROLE_ADMIN')")
+                .antMatchers("/admin/add/*").access("hasAuthority('ROLE_ADMIN')")
+                .antMatchers("/admin/edit").access("hasAuthority('ROLE_ADMIN')")
+                .antMatchers("/admin/edit/*").access("hasAuthority('ROLE_ADMIN')")
+                .antMatchers("/admin/delete").access("hasAuthority('ROLE_ADMIN')")
+                .antMatchers("/admin").access("hasAuthority('ROLE_ADMIN')")
                 .and().formLogin()  // Spring сам подставит свою логин форму
-                .successHandler(successUserHandler); // подключаем наш SuccessHandler для перенеправления по ролям
+                .successHandler(successUserHandler); // подключаем наш SuccessHandler для перенеправлени
+
+//                .and().formLogin()  // Spring сам подставит свою логин форму
+//                .successHandler(successUserHandler); // подключаем наш SuccessHandler для перенеправления по ролям
     }
 
     // Необходимо для шифрования паролей

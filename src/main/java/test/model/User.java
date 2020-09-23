@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Component
@@ -121,5 +122,46 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+    
+    public Set<Role> setRolesOnForm(String str){
+        String[] role = str.split(" ");
+        Set<Role> roles = new HashSet<Role>();
+        for (String s: role) {
+            roles.add(new Role(s));
+        }
+        this.roles = roles;
+        return roles;
+    }
+
+    public String getListRoles(){
+        String rol = "";
+        for (Role r: roles) {
+            rol = rol + r.getRole() + " ";
+        }
+        return rol;
+    }
+
+    public boolean isAdmin(){
+        for (Role r: this.getRoles()) {
+            System.out.println("+++++++++++++" + r.getRole());
+            if (r.getRole().equals("ROLE_ADMIN")){
+                return true;
+            }
+        }
+        System.out.println("false");
+        return false;
+    }
+
+
+    public boolean getIsAdmin() {
+        for (Role r: this.getRoles()) {
+            System.out.println("+++++++++++++" + r.getRole());
+            if (r.getRole().equals("ROLE_ADMIN")){
+                return true;
+            }
+        }
+        System.out.println("false");
+        return false;
     }
 }

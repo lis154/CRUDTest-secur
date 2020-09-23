@@ -27,6 +27,7 @@
         <th>name</th>
         <th>password</th>
         <th>age</th>
+        <th>roles</th>
     </tr>
     <c:forEach var="user" items="${userList}">
         <tr>
@@ -34,25 +35,43 @@
             <td>${user.name}</td>
             <td>${user.password}</td>
             <td>${user.age}</td>
+            <td>${user.getListRoles()}</td>
+
             <td>
-                <a href="/edit/${user.id}">edit</a>
-                <a href="/delete/${user.id}">delete</a>
-            </td>
-        </tr>
-    </c:forEach>
+                <form>
+                <%--    <input type="button" value="edit" onClick='location.href="/admin/edit/${user.id}"'> --%>
+                    <a class="button24" href="/admin/edit/${user.id}" >edit</a>
+                    <a class="button25" href="/admin/delete/${user.id}" >delete</a>
+        <%--    <input type="button" value="delete" onClick='location.href="/admin/delete/${user.id}"'>--%>
 
-    <tr><td>USer count ${usersCount}</td>><td>
-    <tr><td>page</td>
-       <td> <c:forEach begin="1" end="${pagesCount}" step="1" varStatus="i">
-            <c:url value="/" var="url">
-                <c:param name="page" value="${i.index}"/>
-            </c:url>
-            <a href="${url}">${i.index}</a>
-        </c:forEach></td></tr>
+        </form>
+    </td>
+</tr>
+</c:forEach>
 
-    <td><c:url value="/add" var="add"/>
-        <a href="${add}">Add new user</a></td>
+    <tr><td>USer count </td><td>${usersCount}</td></tr>
+<tr><td>page</td>
+<td> <c:forEach begin="1" end="${pagesCount}" step="1" varStatus="i">
+    <c:url value="/admin" var="url">
+        <c:param name="page" value="${i.index}"/>
+    </c:url>
+    <a href="${url}">${i.index}</a>
+</c:forEach></td>
+
+
+    <%--<td><c:url value="/admin/add" var="add"/>
+    <form>
+        <a class="button7" href="/admin/add" >Add new user</a>
+        <input type="button" value="Add new user" onClick='location.href="${add}"'>
+</form>--%>
+    <td><a class="button7" href="/admin/add" >Add new user</a></td>
+<td>
+ <a class="button7" href="/logout" >LOGOUT</a>
+</td>
+<td>
+<a class="button7" href="/user?username=${username}" >User</a>
+</td>
+</tr>
 </table>
-
 </body>
 </html>

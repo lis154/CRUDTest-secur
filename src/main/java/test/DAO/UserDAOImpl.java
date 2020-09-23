@@ -128,17 +128,13 @@ public class UserDAOImpl implements UserDAO{
 
 
     @Override
-//    public void add(User user) {
-//        EntityManager entityManager = getEntityManager();
-//        entityManager.persist(user);
-//    }
     public void add(User user) {
         EntityManager entityManager = getEntityManager();
         Long lon = 5L;
         HashSet<Role> str = new HashSet<>();
         str.add(new Role(lon, "ROLE_USER"));
-        User user1 = new User (5,"ilya1", "qwe", 15,str);
-        entityManager.merge(user1);
+        User user1 = new User (10,"ilya2", "qwe", 15,str);
+        entityManager.merge(user);
     }
 
 
@@ -167,7 +163,7 @@ public class UserDAOImpl implements UserDAO{
         query.setParameter("name", name);
         return (User)query.getSingleResult();
 
-        //return getEntityManager().find(User.class, name);
+
     }
 
 
@@ -175,7 +171,6 @@ public class UserDAOImpl implements UserDAO{
     public int userCount() {
         Query query = entityManager.createQuery("SELECT COUNT(*) FROM User " );
 
-        //Query query1 = entityManager.createQuery("select count(ut) From User ut");
         int rez = ((Number) query.getSingleResult()).intValue();
         System.out.println(rez);
         return rez;
